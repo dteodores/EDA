@@ -1,0 +1,90 @@
+---
+title: "Exporatory Data Analysis (DT)"
+author: "Daniel Teodorescu"
+date: "7/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The purpose of the exploratory data analysis was to assess the relationship between percentage of online enrollment and percent of out-of-statea and international students and the remaining variables in the data set to determine if there are any factors that have more of an influence on these variables than others. The goal of this analysis of was to examine the more influential variables in the data set to determine the variables that could have the largest impact on online enrollment and out-of-state enrollment. 
+
+In addition, data visualization and exploration focused on independent variables and determining how they interact with one another.  Another focus of the analysis was on examining the differences between HBCUs and non-HBCUs. 
+The following variables were investigated in this section: perc100online, perc_some_online, perc_out, perc_int, HBCU, Total_Enrollment, and GROFFER.   This was done via bar boxlpots to explore the relationships between a continuous variable and a factor, and scatterplots for the relationships between two continuous variables. 
+
+<b>HBCU </b>
+
+```{r HBCU}
+##Explore differences in dependent variables by HBCU status 
+
+ggplot(data_new2, aes(HBCUF, perc100online)) + geom_boxplot(aes(fill = HBCUF))
+
+ggplot(data_new2, aes(HBCUF, perc_some_online)) + geom_boxplot(aes(fill = HBCUF))
+
+ggplot(data_new2, aes(HBCUF, perc_out)) + geom_boxplot(aes(fill = HBCUF))
+
+ggplot(data_new2, aes(HBCUF, perc_int)) + geom_boxplot(aes(fill = HBCUF)) 
+
+
+```
+
+As expected there is a difference between HBCUs and Non_HBCUS for the perc100online, suggesting that HBCUs, on average, enroll a lower percentage of students in online programs.  At the same time, the boxplots for perc_some_online indicate that there does not to appear a difference between the two groups of institutions. Likewise, there were no differences between HBCUs and Non-HBCUs  for perc_out and perc_int.  
+
+
+
+<b>Total_Enrollment (EFDETOT)</b>
+
+```{r EFDETOT}
+#Explore scatterplots for continuous variables  
+library(ggplot2)
+ggplot(data_new2, aes(x = EFDETOT, y = perc100online)) + 
+       geom_smooth(method = "lm")  + 
+       geom_point() 
+
+ggplot(data_new2, aes(x = EFDETOT, y = perc_some_online)) + 
+       geom_smooth(method = "lm")  + 
+       geom_point() 
+
+
+ggplot(data_new, aes(x = perc100online, y = perc_out)) + 
+       geom_smooth(method = "lm")  + 
+       geom_point() 
+
+
+ggplot(data_new, aes(x = perc100online, y = perc_int)) + 
+       geom_smooth(method = "lm")  + 
+       geom_point() 
+
+ggplot(data_new, aes(x = perc_some_online, y = perc_out)) + 
+       geom_smooth(method = "lm")  + 
+       geom_point() 
+
+ggplot(data_new, aes(x = perc_some_online, y = perc_int)) + 
+       geom_smooth(method = "lm")  + 
+       geom_point()
+
+```
+
+The scatterplots reveal that there is little or no linear relationship between total enrollment and percentage of students in online programs or percentage of students enrolled in some online classes.
+There appears to be a positive linear relationship between % of online students and % of out of state students, suggesting that online programs tend to attract more out-of-state students.   However, there is no relationship between percentage of online students and percentage of international students. 
+
+ 
+
+<b>Graduate Programs (GROFFER)</b> 
+
+```{r GROFFER}
+##Explore differences in dependent variables by GROFFER
+
+ggplot(data_new, aes(factor(GROFFER), perc100online)) + geom_boxplot(aes(fill =factor(GROFFER))) 
+ggplot(data_new, aes(factor(GROFFER), perc_some_online)) + geom_boxplot(aes(fill =factor(GROFFER)))
+ggplot(data_new, aes(factor(GROFFER), perc_out)) + geom_boxplot(aes(fill = factor(GROFFER))) 
+ggplot(data_new, aes(factor(GROFFER), perc_int)) + geom_boxplot(aes(fill = factor(GROFFER))) 
+```
+
+Institutions that offer graduate programs have a slightly lower % of online students than institutions that have no graduate programs. This is true for both perc100online and perc_some_online. 
+
+<b>Next Steps</b>
+
+The initial exploration has been useful to understand interesting trends in the data and suggest what will be worth exploring in more detail in the regression models. The main goal of the project remains the same as when it was discussed in the Capstone proposal - to create a regression model which will determine if the enrollment of online students is lower at HBCUs than at other institutions, after controlling for relevant factors.  This predictive model will also estimate the growth in out-of-state enrollments for each percentage in increase in online enrollments. 
